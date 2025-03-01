@@ -12,19 +12,19 @@ let tbody = document.getElementById("tbody");
 
 function getForms(forms){
  tbody.innerHTML = "";
- for(let i = 0; i < formsArr.length; i++){
-  let tr = document.createElement("tr");
+  formsArr.forEach((obj, index) => {
+    let tr = document.createElement("tr");
   tr.innerHTML = `
-          <th scope="row">${formsArr[i].id}</th>
-          <td>${formsArr[i].name}</td>
-          <td>${formsArr[i].age}</td>
-          <td>${formsArr[i].email}</td>
-          <td>${formsArr[i].password}</td>
-          <td> <button class = "btn btn-danger" onclick="deleteForm(${formsArr[i].id})">X</button></td>
+          <th scope="row">${index + 1}</th>
+          <td>${obj.name}</td>
+          <td>${obj.age}</td>
+          <td>${obj.email}</td>
+          <td>${obj.password}</td>
+          <td> <button class = "btn btn-danger" onclick="deleteForm(${obj.id})">X</button></td>
           
   `
   tbody.appendChild(tr);
- } 
+  })
 }
 getForms(formsArr);
 
@@ -39,9 +39,8 @@ form.addEventListener("submit", addForm)
 function addForm(e) {
   e.preventDefault();
 
-  let newObj =
-  {
-    id: formsArr[formsArr.length -1].id + 1,
+  let newObj = {
+    id: formsArr.length + 1,
     name: nameInput.value,
     age: ageInput.value,
     email: emailInput.value,
@@ -51,21 +50,26 @@ function addForm(e) {
   formsArr.push(newObj);
   getForms(formsArr);
 
-  nameInput.value = "";
-  ageInput.value = "";
-  emailInput.value = "";
-  passwordInput.value = "";
+  form.reset();
 }
 
 function deleteForm(id){
-  if(confirm("O'chirishni xohlaysizmi?")){
-    let newArr = [];
-  for(let i = 0; i < formsArr.length; i++){
-    if(formsArr[i].id !== id){
-      newArr.push(formsArr[i])
-    }
-  }
-  formsArr = newArr;
-  getForms(formsArr);
+  if(confirm("Are you sure delete")){
+    formsArr = formsArr.filter(item => item.id !== id);
+    getForms();
   }
 }
+// eski usul
+// function deleteForm(id){
+//   if(confirm("O'chirishni xohlaysizmi?")){
+//       let newArr = [];
+//     for(let i = 0; i < formsArr.length; i++){
+//       if(formsArr[i].id !== id){
+//         newArr.push(formsArr[i])
+//       }
+//     }
+//     formsArr = newArr;
+//     getForms(formsArr);
+//   }
+// }
+
